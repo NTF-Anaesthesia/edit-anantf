@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Opening the page editor…</title>
+<script>
+  // edit.anantf.com/<page> → anantf.com/edit.html?page=/<page>
+  (function () {
+    var p = location.pathname + location.search + location.hash;
+    if (/^\/(index\.html)?$/.test(location.pathname) && !location.search && !location.hash) p = '/';
+    location.replace('https://anantf.com/edit.html?page=' + encodeURIComponent(p));
+  })();
+</script>
+<meta http-equiv="refresh" content="2;url=https://anantf.com/edit.html">
+<style>body{margin:0;background:#f7f5ef;color:#272722;font:17px/1.6 system-ui,sans-serif;padding:40px 22px}a{color:#633d3c}</style>
+</head>
+<body>
+<p>Opening the page editor… If nothing happens, <a href="https://anantf.com/edit.html">open it here</a>.</p>
+</body>
+</html>
