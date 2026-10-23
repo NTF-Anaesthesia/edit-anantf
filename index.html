@@ -7,16 +7,48 @@
 <title>Opening the page editor…</title>
 <script>
   // edit.anantf.com/<page> → anantf.com/edit.html?page=/<page>
+  // Pages that moved to their own repo and address (23 Oct 2026) can't be opened in the editor (it only edits
+  // anantf.com pages), so they get a link to the new page and to that repo's issues instead.
+  // [first path part, repo, new address that replaces /<first part>]
+  var MOVED = [['mo', 'mo', 'https://mo.anantf.com'], ['babymo', 'mo', 'https://mo.anantf.com/test'],
+    ['qbank', 'mo', 'https://mo.anantf.com/qbank'], ['ot', 'ot', 'https://ot.anantf.com'],
+    ['regional.html', 'regional', 'https://regional.anantf.com/']];
+  ['plexus', 'brachial-plexus', 'popliteal', 'popliteal-animation', 'spinal', 'truncal', 'head-neck', 'upper-limb',
+    'lower-limb', 'blocks', 'ra.html', 'draft-ra.html', 'popliteal.html'].forEach(function (f) {
+    MOVED.push([f, 'regional', 'https://regional.anantf.com/' + f]);
+  });
+  var moved = null;
   (function () {
     var p = location.pathname + location.search + location.hash;
+    var first = location.pathname.split('/')[1] || '';
+    for (var i = 0; i < MOVED.length; i++) {
+      if (MOVED[i][0] !== first) continue;
+      var rest = p.slice(first.length + 1);
+      if (MOVED[i][2].slice(-1) === '/' && rest.charAt(0) === '/') rest = rest.slice(1);
+      moved = { repo: MOVED[i][1], url: MOVED[i][2] + (rest || (MOVED[i][2].slice(-1) === '/' || /\.html$/.test(first) ? '' : '/')) };
+      return;
+    }
     if (/^\/(index\.html)?$/.test(location.pathname) && !location.search && !location.hash) p = '/';
     location.replace('https://anantf.com/edit.html?page=' + encodeURIComponent(p));
   })();
+  if (!moved) document.write('<meta http-equiv="refresh" content="2;url=https://anantf.com/edit.html">');
 </script>
-<meta http-equiv="refresh" content="2;url=https://anantf.com/edit.html">
 <style>body{margin:0;background:#f7f5ef;color:#272722;font:17px/1.6 system-ui,sans-serif;padding:40px 22px}a{color:#633d3c}</style>
 </head>
 <body>
-<p>Opening the page editor… If nothing happens, <a href="https://anantf.com/edit.html">open it here</a>.</p>
+<p id="msg">Opening the page editor… If nothing happens, <a href="https://anantf.com/edit.html">open it here</a>.</p>
+<script>
+  if (moved) {
+    var issue = 'https://github.com/NTF-Anaesthesia/' + moved.repo + '/issues/new?title=' +
+      encodeURIComponent('Change to ' + moved.url) + '&body=' + encodeURIComponent('Page: ' + moved.url + '\n\n');
+    var m = document.getElementById('msg');
+    m.textContent = 'This page now lives at ';
+    var a = document.createElement('a'); a.href = moved.url; a.textContent = moved.url; m.appendChild(a);
+    m.appendChild(document.createTextNode('. The page editor only works on anantf.com pages; to suggest a change, '));
+    var b = document.createElement('a'); b.href = issue; b.textContent = 'open an issue in the ' + moved.repo + ' repo'; m.appendChild(b);
+    m.appendChild(document.createTextNode('.'));
+    document.title = 'Page moved';
+  }
+</script>
 </body>
 </html>
