@@ -7,12 +7,16 @@
 <title>Opening the page editor…</title>
 <script>
   // edit.anantf.com/<page> → anantf.com/edit.html?page=/<page>
-  // Pages that moved to their own repo and address (23 Oct 2026) can't be opened in the editor (it only edits
+  // Pages that moved to their own repo and address (23-24 Oct 2026) can't be opened in the editor (it only edits
   // anantf.com pages), so they get a link to the new page and to that repo's issues instead.
   // [first path part, repo, new address that replaces /<first part>]
   var MOVED = [['mo', 'mo', 'https://mo.anantf.com'], ['babymo', 'mo', 'https://mo.anantf.com/test'],
     ['qbank', 'mo', 'https://mo.anantf.com/qbank'], ['ot', 'ot', 'https://ot.anantf.com'],
-    ['regional.html', 'regional', 'https://regional.anantf.com/']];
+    ['regional.html', 'regional', 'https://regional.anantf.com/'], ['pocus', 'pocus', 'https://pocus.anantf.com'],
+    ['exams', 'exams', 'https://exams.anantf.com'], ['exams.html', 'exams', 'https://exams.anantf.com/'],
+    ['eeg', 'eeg', 'https://eeg.anantf.com'], ['bis', 'eeg', 'https://eeg.anantf.com/bis'],
+    ['airway.html', 'airway', 'https://airway.anantf.com/airway.html'],
+    ['airway-3d-models.html', 'airway', 'https://airway.anantf.com/airway-3d-models.html']];
   ['plexus', 'brachial-plexus', 'popliteal', 'popliteal-animation', 'spinal', 'truncal', 'head-neck', 'upper-limb',
     'lower-limb', 'blocks', 'ra.html', 'draft-ra.html', 'popliteal.html'].forEach(function (f) {
     MOVED.push([f, 'regional', 'https://regional.anantf.com/' + f]);
